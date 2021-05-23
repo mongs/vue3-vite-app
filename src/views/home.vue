@@ -1,18 +1,22 @@
 <template>
-  <h1>Hello {{ count }} </h1>
-  <button @click="clickBtn">++</button>
+  <h1>Hello {{ count }}</h1>
+  <a-button @click="clickBtn" type="primary">++</a-button>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, computed, useContext, getCurrentInstance } from "vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
-  setup() {
+  setup(props, context) {
     const store = useStore();
-    const clickBtn = () => store.commit('increment')
-    const count = computed(() => store.state.count)
-    return { clickBtn, count }
-  }
-})
+    const { ctx } = getCurrentInstance();
+    const clickBtn = () => {
+      store.commit("increment");
+      ctx.$message.error("error");
+    };
+    const count = computed(() => store.state.count);
+    return { clickBtn, count };
+  },
+});
 </script>
